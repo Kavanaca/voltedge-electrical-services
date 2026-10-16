@@ -1,0 +1,13 @@
+# Backend
+backend/target/
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Secrets and editor files
+.env
+*.env
+.vscode/
+.idea/
