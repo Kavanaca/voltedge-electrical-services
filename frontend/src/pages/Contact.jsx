@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import api from '../services/api'
 
 const serviceOptions = [
   'HT/LT Lines & Cabling',
@@ -16,6 +17,8 @@ export default function Contact() {
   const [form, setForm] = useState(empty)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -29,14 +32,27 @@ export default function Contact() {
     return e
   }
 
-  const handleSubmit = (ev) => {
+  const handleSubmit = async (ev) => {
     ev.preventDefault()
     const e = validate()
     setErrors(e)
-    if (Object.keys(e).length === 0) {
-      console.log('Enquiry (will be sent to backend in Step 9):', form)
+    setSubmitted(false)
+    setServerError('')
+    if (Object.keys(e).length > 0) return
+
+    try {
+      setLoading(true)
+      await api.post('/api/public/enquiries', form)
       setSubmitted(true)
       setForm(empty)
+    } catch (err) {
+      if (err.response?.status === 400) {
+        setErrors(err.response.data)
+      } else {
+        setServerError('Could not send your enquiry. Please try again or call us.')
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -74,6 +90,10 @@ export default function Contact() {
           </p>
         )}
 
+        {serverError && (
+          <p className="mt-4 bg-red-50 text-red-700 text-sm p-3 rounded-md">{serverError}</p>
+        )}
+
         <form onSubmit={handleSubmit} className="mt-4 space-y-4" noValidate>
           <div>
             <label className="text-sm font-medium">Full name *</label>
@@ -107,8 +127,12 @@ export default function Contact() {
             <label className="text-sm font-medium">Project details</label>
             <textarea name="details" rows="4" value={form.details} onChange={handleChange} className={input} />
           </div>
-          <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2.5 rounded-md">
-            Submit Enquiry
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white font-semibold py-2.5 rounded-md"
+          >
+            {loading ? 'Sending...' : 'Submit Enquiry'}
           </button>
         </form>
       </div>

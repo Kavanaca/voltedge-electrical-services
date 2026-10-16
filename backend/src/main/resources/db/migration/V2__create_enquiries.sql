@@ -1,0 +1,11 @@
+CREATE TABLE enquiries (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    email VARCHAR(150),
+    location VARCHAR(200) NOT NULL,
+    service VARCHAR(100) NOT NULL,
+    details TEXT,
+    status VARCHAR(20) NOT NULL DEFAULT 'NEW',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
