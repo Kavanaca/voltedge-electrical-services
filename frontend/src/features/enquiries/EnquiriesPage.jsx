@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api from '../../services/api'
 
 const STATUSES = ['NEW', 'CONTACTED', 'QUOTED', 'CLOSED']
@@ -54,6 +55,7 @@ export default function EnquiriesPage() {
                 <th className="px-4 py-3">Location</th>
                 <th className="px-4 py-3">Details</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -78,6 +80,14 @@ export default function EnquiriesPage() {
                     >
                       {STATUSES.map((s) => <option key={s}>{s}</option>)}
                     </select>
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <Link
+                      to={`/admin/quotations/new?enquiryId=${e.id}`}
+                      className="text-amber-600 font-semibold hover:underline"
+                    >
+                      Create quotation
+                    </Link>
                   </td>
                 </tr>
               ))}

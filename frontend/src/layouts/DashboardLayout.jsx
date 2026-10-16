@@ -1,8 +1,8 @@
 import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom'
-import { Inbox, LogOut, Zap } from 'lucide-react'
+import { Inbox, FileText, LogOut, Zap } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
-const comingSoon = ['Quotations', 'Projects', 'Employees', 'Invoices', 'Solar', 'Documents']
+const comingSoon = ['Projects', 'Employees', 'Invoices', 'Solar', 'Documents']
 
 export default function DashboardLayout() {
   const { user, logout } = useAuth()
@@ -19,14 +19,17 @@ export default function DashboardLayout() {
     }`
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-slate-100">
-      <aside className="md:w-56 bg-slate-900 p-4 md:min-h-screen">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-100 print:bg-white">
+      <aside className="print:hidden md:w-56 bg-slate-900 p-4 md:min-h-screen">
         <div className="flex items-center gap-2 text-white font-bold text-lg">
           <Zap className="text-amber-500" /> VoltEdge
         </div>
         <nav className="mt-6 flex md:flex-col gap-1 flex-wrap">
           <NavLink to="/admin/enquiries" className={linkClass}>
             <Inbox size={16} /> Enquiries
+          </NavLink>
+          <NavLink to="/admin/quotations" className={linkClass}>
+            <FileText size={16} /> Quotations
           </NavLink>
           {comingSoon.map((m) => (
             <span key={m} className="px-3 py-2 text-sm text-slate-500 cursor-not-allowed">
@@ -37,7 +40,7 @@ export default function DashboardLayout() {
       </aside>
 
       <div className="flex-1 min-w-0">
-        <header className="bg-white shadow-sm px-6 py-3 flex items-center justify-between">
+        <header className="print:hidden bg-white shadow-sm px-6 py-3 flex items-center justify-between">
           <Link to="/" className="text-sm text-slate-500 hover:text-amber-600">View website</Link>
           <div className="flex items-center gap-4 text-sm">
             <span className="text-slate-700">{user?.name} ({user?.role})</span>
@@ -46,7 +49,7 @@ export default function DashboardLayout() {
             </button>
           </div>
         </header>
-        <main className="p-6">
+        <main className="p-6 print:p-0">
           <Outlet />
         </main>
       </div>

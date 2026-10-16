@@ -9,6 +9,9 @@ import Projects from './pages/Projects'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import EnquiriesPage from './features/enquiries/EnquiriesPage'
+import QuotationsPage from './features/quotations/QuotationsPage'
+import QuotationFormPage from './features/quotations/QuotationFormPage'
+import QuotationDetailPage from './features/quotations/QuotationDetailPage'
 
 export default function App() {
   return (
@@ -27,6 +30,9 @@ export default function App() {
         <Route path="/admin" element={<DashboardLayout />}>
           <Route index element={<Navigate to="enquiries" replace />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
+          <Route path="quotations" element={<QuotationsPage />} />
+          <Route path="quotations/new" element={<QuotationFormPage />} />
+          <Route path="quotations/:id" element={<QuotationDetailPage />} />
         </Route>
       </Route>
     </Routes>

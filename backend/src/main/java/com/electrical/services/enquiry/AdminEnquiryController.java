@@ -20,6 +20,11 @@ public class AdminEnquiryController {
         return service.list();
     }
 
+    @GetMapping("/{id}")
+    public EnquiryAdminResponse get(@PathVariable Long id) {
+        return service.get(id);
+    }
+
     @PatchMapping("/{id}/status")
     public EnquiryAdminResponse updateStatus(@PathVariable Long id,
                                              @Valid @RequestBody StatusUpdateRequest req) {

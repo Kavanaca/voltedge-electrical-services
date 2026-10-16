@@ -34,15 +34,23 @@ public class EnquiryService {
         return repository.findAllByOrderByCreatedAtDesc().stream().map(this::toAdmin).toList();
     }
 
+    public EnquiryAdminResponse get(Long id) {
+        return toAdmin(find(id));
+    }
+
     public EnquiryAdminResponse updateStatus(Long id, String status) {
         String s = status.trim().toUpperCase();
         if (!STATUSES.contains(s)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid status");
         }
-        Enquiry e = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Enquiry not found"));
+        Enquiry e = find(id);
         e.setStatus(s);
         return toAdmin(repository.save(e));
+    }
+
+    private Enquiry find(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Enquiry not found"));
     }
 
     private EnquiryAdminResponse toAdmin(Enquiry e) {
