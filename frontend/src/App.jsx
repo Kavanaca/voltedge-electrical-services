@@ -19,6 +19,8 @@ import EmployeesPage from './features/employees/EmployeesPage'
 import InvoicesPage from './features/invoices/InvoicesPage'
 import InvoiceFormPage from './features/invoices/InvoiceFormPage'
 import InvoiceDetailPage from './features/invoices/InvoiceDetailPage'
+import SolarPage from './features/solar/SolarPage'
+import SolarFormPage from './features/solar/SolarFormPage'
 
 export default function App() {
   return (
@@ -47,6 +49,9 @@ export default function App() {
           <Route path="invoices" element={<InvoicesPage />} />
           <Route path="invoices/new" element={<InvoiceFormPage />} />
           <Route path="invoices/:id" element={<InvoiceDetailPage />} />
+          <Route path="solar" element={<SolarPage />} />
+          <Route path="solar/new" element={<SolarFormPage />} />
+          <Route path="solar/:id/edit" element={<SolarFormPage />} />
         </Route>
       </Route>
     </Routes>

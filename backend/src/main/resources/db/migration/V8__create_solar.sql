@@ -1,0 +1,21 @@
+CREATE TABLE solar_installations (
+    id BIGSERIAL PRIMARY KEY,
+    project_id BIGINT REFERENCES projects(id),
+    customer_name VARCHAR(100) NOT NULL,
+    customer_phone VARCHAR(15) NOT NULL,
+    site_address VARCHAR(300) NOT NULL,
+    system_type VARCHAR(20) NOT NULL,
+    capacity_kw NUMERIC(8,2) NOT NULL,
+    panel_brand VARCHAR(100),
+    panel_count INTEGER,
+    panel_watt INTEGER,
+    inverter_brand VARCHAR(100),
+    inverter_kw NUMERIC(8,2),
+    status VARCHAR(30) NOT NULL DEFAULT 'SURVEY',
+    survey_date DATE,
+    install_date DATE,
+    commissioning_date DATE,
+    warranty_years INTEGER,
+    notes TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
