@@ -1,5 +1,7 @@
 package com.electrical.services.project;
 
+import com.electrical.services.employee.Employee;
+import com.electrical.services.employee.EmployeeRepository;
 import com.electrical.services.quotation.Quotation;
 import com.electrical.services.quotation.QuotationRepository;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,13 @@ public class ProjectService {
 
     private final ProjectRepository repository;
     private final QuotationRepository quotationRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public ProjectService(ProjectRepository repository, QuotationRepository quotationRepository) {
+    public ProjectService(ProjectRepository repository, QuotationRepository quotationRepository,
+                          EmployeeRepository employeeRepository) {
         this.repository = repository;
         this.quotationRepository = quotationRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Transactional
@@ -94,8 +99,16 @@ public class ProjectService {
         Project p = find(projectId);
         ProjectTask t = new ProjectTask();
         t.setTitle(r.title().trim());
-        t.setAssignee(blankToNull(r.assignee()));
         t.setDueDate(r.dueDate());
+        if (r.employeeId() != null) {
+            Employee e = employeeRepository.findById(r.employeeId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+            if (!e.isActive()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This employee is inactive");
+            }
+            t.setEmployeeId(e.getId());
+            t.setAssignee(e.getFullName());
+        }
         p.addTask(t);
         return toResponse(repository.save(p));
     }
@@ -148,7 +161,8 @@ public class ProjectService {
 
     private ProjectResponse toResponse(Project p) {
         List<TaskResponse> tasks = p.getTasks().stream()
-                .map(t -> new TaskResponse(t.getId(), t.getTitle(), t.getAssignee(), t.getDueDate(), t.getStatus()))
+                .map(t -> new TaskResponse(t.getId(), t.getTitle(), t.getEmployeeId(), t.getAssignee(),
+                        t.getDueDate(), t.getStatus()))
                 .toList();
         return new ProjectResponse(p.getId(), p.getProjectNumber(), p.getQuotationId(), p.getQuotationNumber(),
                 p.getName(), p.getCustomerName(), p.getCustomerPhone(), p.getLocation(), p.getService(),

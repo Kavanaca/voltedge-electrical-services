@@ -9,7 +9,8 @@ export default function ProjectDetailPage() {
   const { id } = useParams()
   const [p, setP] = useState(null)
   const [edit, setEdit] = useState(null)
-  const [task, setTask] = useState({ title: '', assignee: '', dueDate: '' })
+   const [task, setTask] = useState({ title: '', employeeId: '', dueDate: '' })
+  const [employees, setEmployees] = useState([])
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
 
@@ -30,6 +31,11 @@ export default function ProjectDetailPage() {
       .then((res) => load(res.data))
       .catch(() => setError('Could not load this project.'))
   }, [id])
+    useEffect(() => {
+    api.get('/api/admin/employees')
+      .then((res) => setEmployees(res.data.filter((e) => e.active)))
+      .catch(() => {})
+  }, [])
 
   const run = async (request, fallback, success) => {
     setError('')
@@ -54,14 +60,14 @@ export default function ProjectDetailPage() {
     }), 'Could not save the project.', 'Project saved.')
   }
 
-  const addTask = async (e) => {
+    const addTask = async (e) => {
     e.preventDefault()
     const ok = await run(() => api.post(`/api/admin/projects/${id}/tasks`, {
       title: task.title,
-      assignee: task.assignee,
+      employeeId: task.employeeId ? Number(task.employeeId) : null,
       dueDate: task.dueDate || null,
     }), 'Could not add the task.')
-    if (ok) setTask({ title: '', assignee: '', dueDate: '' })
+    if (ok) setTask({ title: '', employeeId: '', dueDate: '' })
   }
 
   const setTaskStatus = (taskId, status) =>
@@ -160,9 +166,14 @@ export default function ProjectDetailPage() {
             <label className="text-xs text-slate-500">Task *</label>
             <input value={task.title} onChange={(e) => setTask({ ...task, title: e.target.value })} className={input} required />
           </div>
-          <div className="md:col-span-3">
+         <div className="md:col-span-3">
             <label className="text-xs text-slate-500">Assigned to</label>
-            <input value={task.assignee} onChange={(e) => setTask({ ...task, assignee: e.target.value })} className={input} />
+            <select value={task.employeeId} onChange={(e) => setTask({ ...task, employeeId: e.target.value })} className={input}>
+              <option value="">Unassigned</option>
+              {employees.map((emp) => (
+                <option key={emp.id} value={emp.id}>{emp.fullName} ({emp.role})</option>
+              ))}
+            </select>
           </div>
           <div className="md:col-span-2">
             <label className="text-xs text-slate-500">Due date</label>

@@ -15,6 +15,7 @@ import QuotationDetailPage from './features/quotations/QuotationDetailPage'
 import ProjectsPage from './features/projects/ProjectsPage'
 import ProjectFormPage from './features/projects/ProjectFormPage'
 import ProjectDetailPage from './features/projects/ProjectDetailPage'
+import EmployeesPage from './features/employees/EmployeesPage'
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="projects/new" element={<ProjectFormPage />} />
           <Route path="projects/:id" element={<ProjectDetailPage />} />
+          <Route path="employees" element={<EmployeesPage />} />
         </Route>
       </Route>
     </Routes>
