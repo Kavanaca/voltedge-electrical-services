@@ -16,6 +16,9 @@ import ProjectsPage from './features/projects/ProjectsPage'
 import ProjectFormPage from './features/projects/ProjectFormPage'
 import ProjectDetailPage from './features/projects/ProjectDetailPage'
 import EmployeesPage from './features/employees/EmployeesPage'
+import InvoicesPage from './features/invoices/InvoicesPage'
+import InvoiceFormPage from './features/invoices/InvoiceFormPage'
+import InvoiceDetailPage from './features/invoices/InvoiceDetailPage'
 
 export default function App() {
   return (
@@ -41,6 +44,9 @@ export default function App() {
           <Route path="projects/new" element={<ProjectFormPage />} />
           <Route path="projects/:id" element={<ProjectDetailPage />} />
           <Route path="employees" element={<EmployeesPage />} />
+          <Route path="invoices" element={<InvoicesPage />} />
+          <Route path="invoices/new" element={<InvoiceFormPage />} />
+          <Route path="invoices/:id" element={<InvoiceDetailPage />} />
         </Route>
       </Route>
     </Routes>

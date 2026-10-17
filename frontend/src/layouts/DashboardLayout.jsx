@@ -1,8 +1,8 @@
 import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom'
-import { Inbox, FileText, HardHat, Users, LogOut, Zap } from 'lucide-react'
+import { Inbox, FileText, HardHat, Users, Receipt, LogOut, Zap } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
-const comingSoon = ['Invoices', 'Solar', 'Documents']
+const comingSoon = ['Solar', 'Documents']
 
 export default function DashboardLayout() {
   const { user, logout } = useAuth()
@@ -36,6 +36,9 @@ export default function DashboardLayout() {
           </NavLink>
           <NavLink to="/admin/employees" className={linkClass}>
             <Users size={16} /> Employees
+          </NavLink>
+          <NavLink to="/admin/invoices" className={linkClass}>
+            <Receipt size={16} /> Invoices
           </NavLink>
           {comingSoon.map((m) => (
             <span key={m} className="px-3 py-2 text-sm text-slate-500 cursor-not-allowed">
