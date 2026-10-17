@@ -12,6 +12,9 @@ import EnquiriesPage from './features/enquiries/EnquiriesPage'
 import QuotationsPage from './features/quotations/QuotationsPage'
 import QuotationFormPage from './features/quotations/QuotationFormPage'
 import QuotationDetailPage from './features/quotations/QuotationDetailPage'
+import ProjectsPage from './features/projects/ProjectsPage'
+import ProjectFormPage from './features/projects/ProjectFormPage'
+import ProjectDetailPage from './features/projects/ProjectDetailPage'
 
 export default function App() {
   return (
@@ -33,6 +36,9 @@ export default function App() {
           <Route path="quotations" element={<QuotationsPage />} />
           <Route path="quotations/new" element={<QuotationFormPage />} />
           <Route path="quotations/:id" element={<QuotationDetailPage />} />
+          <Route path="projects" element={<ProjectsPage />} />
+          <Route path="projects/new" element={<ProjectFormPage />} />
+          <Route path="projects/:id" element={<ProjectDetailPage />} />
         </Route>
       </Route>
     </Routes>
