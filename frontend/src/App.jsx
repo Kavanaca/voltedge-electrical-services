@@ -21,6 +21,7 @@ import InvoiceFormPage from './features/invoices/InvoiceFormPage'
 import InvoiceDetailPage from './features/invoices/InvoiceDetailPage'
 import SolarPage from './features/solar/SolarPage'
 import SolarFormPage from './features/solar/SolarFormPage'
+import DocumentsPage from './features/documents/DocumentsPage'
 
 export default function App() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="solar" element={<SolarPage />} />
           <Route path="solar/new" element={<SolarFormPage />} />
           <Route path="solar/:id/edit" element={<SolarFormPage />} />
+          <Route path="documents" element={<DocumentsPage />} />
         </Route>
       </Route>
     </Routes>

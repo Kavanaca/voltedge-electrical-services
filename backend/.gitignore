@@ -12,3 +12,4 @@ frontend/dist/
 .vscode/
 .idea/
 backend/run-dev.ps1
+backend/uploads/
