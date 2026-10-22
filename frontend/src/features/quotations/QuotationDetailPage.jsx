@@ -111,7 +111,7 @@ export default function QuotationDetailPage() {
           </div>
         )}
 
-        <p className="mt-10 text-right text-sm text-slate-700">For VoltEdge Electricals</p>
+        <p className="mt-10 text-right text-sm text-slate-700">For Raja Electrical Works</p>
       </div>
     </div>
   )

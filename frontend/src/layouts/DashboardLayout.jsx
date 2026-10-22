@@ -20,7 +20,7 @@ export default function DashboardLayout() {
     <div className="min-h-screen flex flex-col md:flex-row bg-slate-100 print:bg-white">
       <aside className="print:hidden md:w-56 bg-slate-900 p-4 md:min-h-screen">
         <div className="flex items-center gap-2 text-white font-bold text-lg">
-          <Zap className="text-amber-500" /> VoltEdge
+          <Zap className="text-amber-500" /> RAJA ELECTRICAL WORKS
         </div>
         <nav className="mt-6 flex md:flex-col gap-1 flex-wrap">
           <NavLink to="/admin/enquiries" className={linkClass}>

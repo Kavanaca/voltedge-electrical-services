@@ -9,7 +9,7 @@ export default function ProjectDetailPage() {
   const { id } = useParams()
   const [p, setP] = useState(null)
   const [edit, setEdit] = useState(null)
-   const [task, setTask] = useState({ title: '', employeeId: '', dueDate: '' })
+  const [task, setTask] = useState({ title: '', employeeId: '', dueDate: '' })
   const [employees, setEmployees] = useState([])
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
@@ -31,7 +31,8 @@ export default function ProjectDetailPage() {
       .then((res) => load(res.data))
       .catch(() => setError('Could not load this project.'))
   }, [id])
-    useEffect(() => {
+
+  useEffect(() => {
     api.get('/api/admin/employees')
       .then((res) => setEmployees(res.data.filter((e) => e.active)))
       .catch(() => {})
@@ -60,7 +61,7 @@ export default function ProjectDetailPage() {
     }), 'Could not save the project.', 'Project saved.')
   }
 
-    const addTask = async (e) => {
+  const addTask = async (e) => {
     e.preventDefault()
     const ok = await run(() => api.post(`/api/admin/projects/${id}/tasks`, {
       title: task.title,
@@ -166,7 +167,7 @@ export default function ProjectDetailPage() {
             <label className="text-xs text-slate-500">Task *</label>
             <input value={task.title} onChange={(e) => setTask({ ...task, title: e.target.value })} className={input} required />
           </div>
-         <div className="md:col-span-3">
+          <div className="md:col-span-3">
             <label className="text-xs text-slate-500">Assigned to</label>
             <select value={task.employeeId} onChange={(e) => setTask({ ...task, employeeId: e.target.value })} className={input}>
               <option value="">Unassigned</option>

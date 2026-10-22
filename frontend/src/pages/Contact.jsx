@@ -1,140 +1,57 @@
-import { useState } from 'react'
-import api from '../services/api'
+import { Link } from 'react-router-dom'
+import { Phone, Mail, MapPin, Clock, MessageCircle, ArrowRight } from 'lucide-react'
 
-const serviceOptions = [
-  'HT/LT Lines & Cabling',
-  'Substation Work',
-  'Streetlights',
-  'Building Electrification',
-  'Rooftop Solar',
-  'Technical Manpower',
-  'Other',
-]
-
-const empty = { name: '', phone: '', email: '', location: '', service: '', details: '' }
+const INFO = {
+  phone: '+91 8310193407',
+  email: 'rajaeleworkcmy@gmail.com',
+  address: 'N.R. Extension Behind BESCOM Office , Chintamani-563 125 , Karnataka, India',
+  whatsapp: 'https://wa.me/919449653503',
+}
 
 export default function Contact() {
-  const [form, setForm] = useState(empty)
-  const [errors, setErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [serverError, setServerError] = useState('')
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
-
-  const validate = () => {
-    const e = {}
-    if (!form.name.trim()) e.name = 'Name is required'
-    if (!/^[6-9]\d{9}$/.test(form.phone)) e.phone = 'Enter a valid 10-digit mobile number'
-    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email'
-    if (!form.location.trim()) e.location = 'Location is required'
-    if (!form.service) e.service = 'Please select a service'
-    return e
-  }
-
-  const handleSubmit = async (ev) => {
-    ev.preventDefault()
-    const e = validate()
-    setErrors(e)
-    setSubmitted(false)
-    setServerError('')
-    if (Object.keys(e).length > 0) return
-
-    try {
-      setLoading(true)
-      await api.post('/api/public/enquiries', form)
-      setSubmitted(true)
-      setForm(empty)
-    } catch (err) {
-      if (err.response?.status === 400) {
-        setErrors(err.response.data)
-      } else {
-        setServerError('Could not send your enquiry. Please try again or call us.')
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const input = 'mt-1 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400'
-  const err = (k) => errors[k] && <p className="text-xs text-red-600 mt-1">{errors[k]}</p>
+  const cards = [
+    { icon: Phone, title: 'Phone', text: INFO.phone, href: INFO.phoneLink },
+    { icon: Mail, title: 'Email', text: INFO.email, href: `mailto:${INFO.email}` },
+    { icon: MapPin, title: 'Address', text: INFO.address },
+  ]
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16 grid gap-10 md:grid-cols-2">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900">Contact Us</h1>
-        <p className="mt-3 text-slate-600">
-          Tell us about your project and we will get back to you with a quotation.
+    <div className="bg-[#EFF6FF]">
+      <div className="max-w-6xl mx-auto px-4 py-16">
+        <p className="text-sm font-semibold uppercase tracking-widest text-orange-500">Contact</p>
+        <h1 className="mt-2 font-heading text-3xl font-bold text-blue-950 md:text-4xl">Contact Us</h1>
+        <p className="mt-3 max-w-2xl text-slate-600">
+          Call, message or visit us. For a price for your project, use the quotation form.
         </p>
-        <ul className="mt-6 space-y-2 text-sm text-slate-700">
-          <li>Phone: +91 00000 00000</li>
-          <li>Email: info@example.com</li>
-          <li>Address: Karnataka, India</li>
-        </ul>
-        <a
-          href="https://wa.me/910000000000"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-block mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md text-sm font-semibold"
-        >
-          Chat on WhatsApp
-        </a>
-      </div>
 
-      <div className="border rounded-lg p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">Request a Quotation</h2>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          {cards.map(({ icon: Icon, title, text, href }) => (
+            <div key={title} className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-lg bg-orange-100 p-3 text-orange-600"><Icon size={24} /></div>
+              <div>
+                <h3 className="font-heading font-semibold text-blue-950">{title}</h3>
+                {href
+                  ? <a href={href} className="text-sm text-slate-600 hover:text-orange-600">{text}</a>
+                  : <p className="text-sm text-slate-600">{text}</p>}
+              </div>
+            </div>
+          ))}
+        </div>
 
-        {submitted && (
-          <p className="mt-4 bg-green-50 text-green-800 text-sm p-3 rounded-md">
-            Thank you! Your enquiry has been received. We will contact you soon.
-          </p>
-        )}
-
-        {serverError && (
-          <p className="mt-4 bg-red-50 text-red-700 text-sm p-3 rounded-md">{serverError}</p>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4" noValidate>
-          <div>
-            <label className="text-sm font-medium">Full name *</label>
-            <input name="name" value={form.name} onChange={handleChange} className={input} />
-            {err('name')}
-          </div>
-          <div>
-            <label className="text-sm font-medium">Phone number *</label>
-            <input name="phone" value={form.phone} onChange={handleChange} className={input} />
-            {err('phone')}
-          </div>
-          <div>
-            <label className="text-sm font-medium">Email</label>
-            <input name="email" value={form.email} onChange={handleChange} className={input} />
-            {err('email')}
-          </div>
-          <div>
-            <label className="text-sm font-medium">Project location *</label>
-            <input name="location" value={form.location} onChange={handleChange} className={input} />
-            {err('location')}
-          </div>
-          <div>
-            <label className="text-sm font-medium">Service required *</label>
-            <select name="service" value={form.service} onChange={handleChange} className={input}>
-              <option value="">Select a service</option>
-              {serviceOptions.map((s) => <option key={s}>{s}</option>)}
-            </select>
-            {err('service')}
-          </div>
-          <div>
-            <label className="text-sm font-medium">Project details</label>
-            <textarea name="details" rows="4" value={form.details} onChange={handleChange} className={input} />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white font-semibold py-2.5 rounded-md"
-          >
-            {loading ? 'Sending...' : 'Submit Enquiry'}
-          </button>
-        </form>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a href={INFO.whatsapp} target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-md bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700">
+            <MessageCircle size={18} /> Chat on WhatsApp
+          </a>
+          <a href={INFO.phoneLink}
+            className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-6 py-3 font-semibold text-blue-950 hover:border-orange-400">
+            <Phone size={18} /> Call now
+          </a>
+          <Link to="/quote"
+            className="inline-flex items-center gap-2 rounded-md bg-orange-500 px-6 py-3 font-semibold text-white hover:bg-orange-600">
+            Get a Quote <ArrowRight size={18} />
+          </Link>
+        </div>
       </div>
     </div>
   )

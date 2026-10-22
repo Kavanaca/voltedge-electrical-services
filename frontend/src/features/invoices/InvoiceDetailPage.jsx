@@ -85,9 +85,9 @@ export default function InvoiceDetailPage() {
       <div className="bg-white shadow rounded-lg p-8 print:shadow-none print:p-0">
         <div className="flex justify-between border-b pb-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">VoltEdge Electricals</h1>
-            <p className="text-sm text-slate-600">Karnataka, India</p>
-            <p className="text-sm text-slate-600">Phone: +91 00000 00000 | info@example.com</p>
+            <h1 className="text-2xl font-bold text-slate-900">Raja Electrical Works</h1>
+            <p className="text-sm text-slate-600">N.R. Extension Behind BESCOM Office , Chintamani-563 125 Karnataka, India</p>
+            <p className="text-sm text-slate-600">Phone: +91 83101 93407 | rajaeleworkscmy@gmail.com</p>
           </div>
           <div className="text-right">
             <p className="text-xl font-bold text-amber-600">INVOICE</p>
@@ -165,7 +165,7 @@ export default function InvoiceDetailPage() {
           </div>
         )}
 
-        <p className="mt-10 text-right text-sm text-slate-700">For VoltEdge Electricals</p>
+        <p className="mt-10 text-right text-sm text-slate-700">For Raja Electrical Works</p>
       </div>
 
       {!cancelled && (

@@ -19,11 +19,10 @@ export default function Login() {
       const user = await login(email, password)
       navigate(user.role === 'ADMIN' ? '/admin' : '/')
     } catch (err) {
-      setError(
-        err.response?.status === 401
-          ? 'Invalid email or password'
-          : 'Could not connect to the server'
-      )
+      const status = err.response?.status
+      if (status === 401) setError('Invalid email or password')
+      else if (status === 429) setError('Too many attempts. Please wait 15 minutes and try again.')
+      else setError('Could not connect to the server')
     } finally {
       setLoading(false)
     }
@@ -35,7 +34,7 @@ export default function Login() {
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
       <div className="w-full max-w-sm bg-white rounded-lg shadow p-8">
         <div className="flex items-center gap-2 text-xl font-bold text-slate-900">
-          <Zap className="text-amber-500" /> VoltEdge Login
+          <Zap className="text-amber-500" /> Raja Electrical Works
         </div>
 
         {error && <p className="mt-4 bg-red-50 text-red-700 text-sm p-3 rounded-md">{error}</p>}
