@@ -24,6 +24,7 @@ import InvoiceDetailPage from './features/invoices/InvoiceDetailPage'
 import SolarPage from './features/solar/SolarPage'
 import SolarFormPage from './features/solar/SolarFormPage'
 import DocumentsPage from './features/documents/DocumentsPage'
+import UsersPage from './features/users/UsersPage'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -65,6 +66,7 @@ export default function App() {
             <Route path="solar/new" element={<SolarFormPage />} />
             <Route path="solar/:id/edit" element={<SolarFormPage />} />
             <Route path="documents" element={<DocumentsPage />} />
+            <Route path="users" element={<UsersPage />} />
           </Route>
         </Route>
       </Routes>
